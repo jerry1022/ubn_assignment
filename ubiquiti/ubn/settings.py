@@ -50,6 +50,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+WS4REDIS_CONNECTION = {
+    'host': 'redis',
+    'port': 6379,
+    'db': 10,
+    'password': '',
+}
+
+WEBSOCKET_URL = '/ws/'
+WS4REDIS_PREFIX = 'ws'
+
 ROOT_URLCONF = 'ubn.urls'
 
 TEMPLATES = [
@@ -63,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'ws4redis.context_processors.default',
             ],
         },
     },
