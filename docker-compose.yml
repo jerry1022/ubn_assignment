@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+  web:
+    build: './ubiquiti/.'
+    image: 'web'
+    ports:
+      - '127.0.0.1:8000:8000'
+    env_file: '.env'
+    command: 'python manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - './ubiquiti/:/usr/src/app'
+      - 'cachedata:/cache'
+    links:
+      - 'postgres:postgres'
+      - 'redis:redis'
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    container_name: 'postgres'
+    image: 'postgres:latest'
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data/'
+
+  redis:
+    container_name: 'redis'
+    image: 'redis:latest'
+    ports:
+      - '127.0.0.1:6379:6379'
+    volumes:
+      - 'redisdata:/data'
+
+volumes:
+  pgdata:
+  redisdata:
+  cachedata:
